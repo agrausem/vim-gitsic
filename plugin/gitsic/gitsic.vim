@@ -23,26 +23,27 @@ function! GetOrCreateBuffer(buffer, filetype, split)
             %delete
         else
             execute 'bdelete!' a:buffer
-            vsplit
-            call NewBuffer(a:buffer, a:filetype)
+            call NewBuffer(a:buffer, a:filetype, 1)
         endif
     else
-        if a:split
-            vsplit
-        endif
-        call NewBuffer(a:buffer, a:filetype)
+        call NewBuffer(a:buffer, a:filetype, a:split)
     endif
 endfunction
 
 
-function! NewBuffer(buffer, filetype)
+function! NewBuffer(buffer, filetype, split)
     " Create a new buffer
     "
     " buffer :
     "   the name you want to set for the buffer to open
     " filetype :
     "   the type of the file contained in the future buffer
+    " split :
+    "   if you want a new vertical splitted window or not
     
+    if a:split:
+        split
+    endif
     enew
     execute 'file' a:buffer
     execute 'setfiletype' a:filetype
